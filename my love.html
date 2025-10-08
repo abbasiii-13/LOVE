@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پیشاپیش روز دختر مبارک 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Vazirmatn',sans-serif;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+  overflow:hidden;
+  flex-direction:column;
+  text-align:center;
+  padding:1rem;
+}
+
+.glass-box{
+  background: rgba(255,255,255,0.2);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius:20px;
+  padding:2rem 1.5rem;
+  cursor:pointer;
+  transition: all 0.5s ease;
+  box-shadow:0 8px 30px rgba(0,0,0,0.2);
+  color:white;
+  font-size:clamp(1.2rem,4vw,1.8rem);
+  max-width:350px;
+  width:80%;
+  user-select:none;
+}
+.glass-box:hover{-webkit-transform:scale(1.05);transform:scale(1.05);}
+
+.hidden-message{
+  display:none;
+  margin-top:1rem;
+  font-size:clamp(1rem,3.5vw,1.5rem);
+  white-space:pre-wrap;
+  border-right:3px solid white;
+  overflow:hidden;
+}
+
+.shine{
+  -webkit-animation: glowText 1s infinite alternate;
+  animation: glowText 1s infinite alternate;
+}
+@-webkit-keyframes glowText{
+  from{text-shadow:0 0 5px #fff,0 0 10px #ff3b94;}
+  to{text-shadow:0 0 15px #fff,0 0 30px #ff3b94,0 0 45px #ff3b94;}
+}
+@keyframes glowText{
+  from{text-shadow:0 0 5px #fff,0 0 10px #ff3b94;}
+  to{text-shadow:0 0 15px #fff,0 0 30px #ff3b94,0 0 45px #ff3b94;}
+}
+
+footer{
+  opacity:0;
+  margin-top:1.5rem;
+  color:white;
+  font-size:clamp(0.9rem,3vw,1.2rem);
+}
+
+.heart{
+  position:absolute;
+  bottom:-10px;
+  color:#ff3b94;
+  font-size:1.5rem;
+  -webkit-animation: floatUp 5s linear infinite;
+  animation: floatUp 5s linear infinite;
+  user-select:none;
+}
+
+@-webkit-keyframes floatUp{
+  0%{-webkit-transform:translateY(0) scale(1);opacity:1;}
+  100%{-webkit-transform:translateY(-100vh) scale(1.5);opacity:0;}
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(1);opacity:1;}
+  100%{transform:translateY(-100vh) scale(1.5);opacity:0;}
+}
+
+.big-heart{
+  position:absolute;
+  font-size:50px;
+  -webkit-animation: popHeart 1s forwards;
+  animation: popHeart 1s forwards;
+  pointer-events:none;
+}
+@-webkit-keyframes popHeart{
+  0%{-webkit-transform:scale(0);opacity:1;}
+  100%{-webkit-transform:scale(2) rotate(45deg);opacity:0;}
+}
+@keyframes popHeart{
+  0%{transform:scale(0);opacity:1;}
+  100%{transform:scale(2) rotate(45deg);opacity:0;}
+}
+
+@media(max-width:400px){.glass-box{padding:1.5rem 1rem;}}
+</style>
+</head>
+<body>
+
+<div class="glass-box" id="clickBox">مبینا کلیک کن 💖</div>
+<div class="hidden-message" id="message">💖روز دختر پیشاپیش مبارک قشنگ‌ترین دختر دنیا 💖
+دوست دارم تا همیشه😘</div>
+<footer id="footer">از طرف کسی که همیشه عاشقته 💌</footer>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2023/01/13/audio_c8933aab65.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const box=document.getElementById('clickBox');
+const message=document.getElementById('message');
+const footer=document.getElementById('footer');
+const music=document.getElementById('music');
+const text=message.textContent;
+message.textContent='';
+let i=0;
+
+function createHeart(){
+  const heart=document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML='💗';
+  heart.style.left=Math.random()*100+'vw';
+  heart.style.animationDuration=(3+Math.random()*3)+'s';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+setInterval(createHeart,200);
+
+function createBigHeart(x,y){
+  const bHeart=document.createElement('div');
+  bHeart.classList.add('big-heart');
+  bHeart.style.left=x-25+'px';
+  bHeart.style.top=y-25+'px';
+  bHeart.innerHTML='💖';
+  document.body.appendChild(bHeart);
+  setTimeout(()=>bHeart.remove(),1000);
+}
+
+// اضافه کردن both click و touchstart برای موبایل
+function handleClick(e){
+  box.style.display='none';
+  message.style.display='block';
+  music.play();
+
+  function typeWriter(){
+    if(i<text.length){
+      message.textContent+=text.charAt(i);
+      i++;
+      setTimeout(typeWriter,70);
+    } else{
+      message.classList.add('shine');
+      let op=0;
+      const fadeIn=setInterval(()=>{
+        op+=0.02;
+        footer.style.opacity=op;
+        if(op>=1) clearInterval(fadeIn);
+      },50);
+    }
+  }
+  typeWriter();
+
+  createBigHeart(e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY);
+}
+
+// ثبت هر دو event برای سازگاری دسکتاپ و موبایل
+box.addEventListener('click',handleClick);
+box.addEventListener('touchstart',handleClick);
+</script>
+
+</body>
+</html>
